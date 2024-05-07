@@ -29,19 +29,33 @@ public class IncomeController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<IEnumerable<Income>>> Post([FromBody]IncomeDTO income)
     {
+        IEnumerable<Income> availableIncomes = await Context.Incomes.ToListAsync();
+        bool isBaseline = !availableIncomes.Any() || income.IsBaseline;
+        
+        int salary = income.Salary == "" ? 0 : Convert.ToInt32(income.Salary);
+        int pension = income.Pension == "" ? 0 : Convert.ToInt32(income.Pension);
+        int deposit = income.Deposit == "" ? 0 : Convert.ToInt32(income.Deposit);
+        int other = income.Other == "" ? 0 : Convert.ToInt32(income.Other);
+        int salarySpouse = income.SalarySpouse == "" ? 0 : Convert.ToInt32(income.SalarySpouse);
+        int pensionSpouse = income.PensionSpouse == "" ? 0 : Convert.ToInt32(income.PensionSpouse);
+        int depositSpouse = income.DepositSpouse == "" ? 0 : Convert.ToInt32(income.DepositSpouse);
+        int otherSpouse = income.OtherSpouse == "" ? 0 : Convert.ToInt32(income.OtherSpouse);
+
+        int total = salary + pension + deposit + other + salarySpouse + pensionSpouse + depositSpouse + otherSpouse;
+        
         Income incomeToAdd = new Income()
         {
-            IsBaseline = true,
-            Total = 10,
-            Salary = income.Salary == "" ? 0 : Convert.ToInt32(income.Salary),
-            Pension = income.Pension == "" ? 0 : Convert.ToInt32(income.Pension),
-            Deposit = income.Deposit == "" ? 0 : Convert.ToInt32(income.Deposit),
-            Other = income.Other == "" ? 0 : Convert.ToInt32(income.Other),
+            IsBaseline = isBaseline,
+            Total = total,
+            Salary = salary,
+            Pension = pension,
+            Deposit = deposit,
+            Other = other,
             HasSpouse = income.HasSpouse,
-            SalarySpouse = income.SalarySpouse == "" ? 0 : Convert.ToInt32(income.SalarySpouse),
-            PensionSpouse = income.PensionSpouse == "" ? 0 : Convert.ToInt32(income.PensionSpouse),
-            DepositSpouse = income.DepositSpouse == "" ? 0 : Convert.ToInt32(income.DepositSpouse),
-            OtherSpouse = income.OtherSpouse == "" ? 0 : Convert.ToInt32(income.OtherSpouse),
+            SalarySpouse = salarySpouse,
+            PensionSpouse = pensionSpouse,
+            DepositSpouse = depositSpouse,
+            OtherSpouse = otherSpouse,
         };
         
         await Context.Incomes.AddAsync(incomeToAdd);

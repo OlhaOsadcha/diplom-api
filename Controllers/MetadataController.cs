@@ -1,6 +1,7 @@
 using DiplomApi.Data;
 using DiplomApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DiplomApi.Controllers;
 
@@ -16,11 +17,13 @@ public class MetadataController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<Metadata> Get()
+    public async Task<ActionResult<Metadata>> Get()
     {
+        Income income = await Context.Incomes.FirstOrDefaultAsync(i => i.IsBaseline == true);
+        
         Metadata metadata = new Metadata()
         {
-            Income = "105000",
+            Income = income.Total.ToString(),
             CostOfLiving = "79000"
         };
 
