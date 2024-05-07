@@ -19,7 +19,7 @@ public class MetadataController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<Metadata>> Get()
     {
-        Income income = await Context.Incomes.FirstOrDefaultAsync(i => i.IsBaseline == true);
+        Income income = await Context.Incomes.FirstOrDefaultAsync(i => i.IsBaseline == true) ?? new Income();
         
         Metadata metadata = new Metadata()
         {

@@ -29,9 +29,21 @@ public class IncomeController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<IEnumerable<Income>>> Post([FromBody]IncomeDTO income)
     {
-        IEnumerable<Income> availableIncomes = await Context.Incomes.ToListAsync();
-        bool isBaseline = !availableIncomes.Any() || income.IsBaseline;
+        Income incomeToAdd = GetIncomeDtoFromIncome(income);
         
+        IEnumerable<Income> availableIncomes = await Context.Incomes.ToListAsync();
+        incomeToAdd.IsBaseline = !availableIncomes.Any() || incomeToAdd.IsBaseline;
+        
+        await Context.Incomes.AddAsync(incomeToAdd);
+        await Context.SaveChangesAsync();
+
+        IEnumerable<Income> incomes = await Context.Incomes.ToListAsync();
+
+        return Ok(incomes);
+    }
+
+    private Income GetIncomeDtoFromIncome(IncomeDTO income)
+    {
         int salary = income.Salary == "" ? 0 : Convert.ToInt32(income.Salary);
         int pension = income.Pension == "" ? 0 : Convert.ToInt32(income.Pension);
         int deposit = income.Deposit == "" ? 0 : Convert.ToInt32(income.Deposit);
@@ -43,9 +55,9 @@ public class IncomeController : ControllerBase
 
         int total = salary + pension + deposit + other + salarySpouse + pensionSpouse + depositSpouse + otherSpouse;
         
-        Income incomeToAdd = new Income()
+        Income result = new Income()
         {
-            IsBaseline = isBaseline,
+            IsBaseline = income.IsBaseline,
             Total = total,
             Salary = salary,
             Pension = pension,
@@ -57,13 +69,8 @@ public class IncomeController : ControllerBase
             DepositSpouse = depositSpouse,
             OtherSpouse = otherSpouse,
         };
-        
-        await Context.Incomes.AddAsync(incomeToAdd);
-        await Context.SaveChangesAsync();
 
-        IEnumerable<Income> incomes = await Context.Incomes.ToListAsync();
-
-        return Ok(incomes);
+        return result;
     }
     
 }
