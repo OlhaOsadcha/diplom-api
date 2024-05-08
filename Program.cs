@@ -1,5 +1,7 @@
 using System.Text;
 using DiplomApi.Data;
+using DiplomApi.Interfaces;
+using DiplomApi.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -65,6 +67,8 @@ builder.Services.AddDbContext<DiplomContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("Diplom"));
 });
+
+builder.Services.AddScoped<IIncomeRepository, IncomeRepository>();
 
 builder.Services.AddCors(options => options.AddPolicy(
     name: "FrontendUI",

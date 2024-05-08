@@ -1,5 +1,5 @@
 using DiplomApi.Data;
-using DiplomApi.DTO;
+using DiplomApi.Dto;
 using DiplomApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,11 +20,11 @@ public class UsersController : ControllerBase
     
     [HttpGet]
     [Authorize]
-    public async Task<ActionResult<IEnumerable<UserDTO>>> Get()
+    public async Task<ActionResult<IEnumerable<UserDto>>> Get()
     {
         var users = await Context
             .Users
-            .Select(user => new UserDTO()
+            .Select(user => new UserDto()
             {
                 Username = user.Username,
                 Id = user.Id,
@@ -37,13 +37,13 @@ public class UsersController : ControllerBase
     }
     
     [HttpPost]
-    public async Task<ActionResult<UserDTO>> Post(User user)
+    public async Task<ActionResult<UserDto>> Post(User user)
     {
         user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
         
         await Context.Users.AddAsync(user);
         await Context.SaveChangesAsync();
-        return Ok(new UserDTO()
+        return Ok(new UserDto()
         {
             Username = user.Username,
             Id = user.Id,

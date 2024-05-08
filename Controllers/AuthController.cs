@@ -2,7 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using DiplomApi.Data;
-using DiplomApi.DTO;
+using DiplomApi.Dto;
 using DiplomApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -48,7 +48,7 @@ public class AuthController: ControllerBase
     }
 
     [HttpPost("/Login")]
-    public async Task<ActionResult<string>> Login(LoginUserDTO user)
+    public async Task<ActionResult<string>> Login(LoginUserDto user)
     {
         var foundUser = await Context
             .Users
