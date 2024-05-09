@@ -1,6 +1,7 @@
 using DiplomApi.Data;
 using DiplomApi.Dto;
 using DiplomApi.Interfaces;
+using DiplomApi.Mappers;
 using DiplomApi.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,14 +16,16 @@ public class IncomeRepository : IIncomeRepository
         _context = context;
     }
 
-    public async Task<IEnumerable<Income>> GetAllAsync()
+    public async Task<IEnumerable<IncomeDto>> GetAllAsync()
     {
-        return await _context.Incomes.ToListAsync();
+        IEnumerable<Income> incomes = await _context.Incomes.ToListAsync();
+        return incomes.Select(i => i.ToIncomeDto());
     }
 
     public async Task<Income> GetByIdAsync(Guid id)
     {
-        return await _context.Incomes.FindAsync(id);
+        return await _context.Incomes.FirstOrDefaultAsync(i => i.Id == id);
+        // return await _context.Incomes.FindAsync(id);
     }
 
     public async Task<Guid> AddIncomeAsync(IncomeDto income)
@@ -36,6 +39,29 @@ public class IncomeRepository : IIncomeRepository
         await _context.SaveChangesAsync();
 
         return incomeToAdd.Id;
+    }
+    
+    public async Task<Guid> UpdateIncomeAsync(IncomeDto income)
+    {
+        Income incomeChanged = GetIncomeDtoFromIncome(income);
+
+        Income incomeToUpdate = await GetByIdAsync(income.Id);
+
+        incomeToUpdate.IsBaseline = incomeChanged.IsBaseline;
+        incomeToUpdate.Total = incomeChanged.Total;
+        incomeToUpdate.Salary = incomeChanged.Salary;
+        incomeToUpdate.Pension = incomeChanged.Pension;
+        incomeToUpdate.Deposit = incomeChanged.Deposit;
+        incomeToUpdate.Other = incomeChanged.Other;
+        incomeToUpdate.HasSpouse = incomeChanged.HasSpouse;
+        incomeToUpdate.SalarySpouse = incomeChanged.SalarySpouse;
+        incomeToUpdate.PensionSpouse = incomeChanged.PensionSpouse;
+        incomeToUpdate.DepositSpouse = incomeChanged.DepositSpouse;
+        incomeToUpdate.OtherSpouse = incomeChanged.OtherSpouse;
+        
+        await _context.SaveChangesAsync();
+
+        return incomeToUpdate.Id;
     }
     
     private Income GetIncomeDtoFromIncome(IncomeDto income)

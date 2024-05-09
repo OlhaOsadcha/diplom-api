@@ -17,26 +17,35 @@ public class IncomeController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Income>>> Get()
+    public async Task<ActionResult<IEnumerable<IncomeDto>>> Get()
     {
         return Ok(await _repository.GetAllAsync());
     }
     
     
     [HttpPost]
-    public async Task<ActionResult<IEnumerable<Income>>> Post([FromBody]IncomeDto income)
+    public async Task<ActionResult<IEnumerable<IncomeDto>>> Post([FromBody]IncomeDto income)
     {
         await _repository.AddIncomeAsync(income);
         return Ok(await _repository.GetAllAsync());
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<ActionResult<IEnumerable<Income>>> Put([FromRoute]Guid id, [FromBody] IncomeDto income)
+    public async Task<ActionResult<IEnumerable<IncomeDto>>> Put([FromRoute]Guid id, [FromBody] IncomeDto income)
     {
         if (id != income.Id)
         {
             return BadRequest("Employee ID mismatch");
         }
+
+        Income incomeFound = await _repository.GetByIdAsync(id);
+
+        if (incomeFound == null)
+        {
+            return NotFound();
+        }
+
+        await _repository.UpdateIncomeAsync(income);
         
         return Ok(await _repository.GetAllAsync());
     }
