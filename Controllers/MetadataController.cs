@@ -20,11 +20,12 @@ public class MetadataController : ControllerBase
     public async Task<ActionResult<Metadata>> Get()
     {
         Income income = await Context.Incomes.FirstOrDefaultAsync(i => i.IsBaseline == true) ?? new Income();
+        Livingcost livingcost = await Context.Livingcosts.FirstOrDefaultAsync(c => c.IsBaseline == true) ?? new Livingcost();
         
         Metadata metadata = new Metadata()
         {
             Income = income.Total.ToString(),
-            CostOfLiving = "79000"
+            CostOfLiving = livingcost.Total.ToString()
         };
 
         return Ok(metadata);

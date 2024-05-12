@@ -72,6 +72,53 @@ namespace DiplomApi.Migrations
                     b.ToTable("Incomes");
                 });
 
+            modelBuilder.Entity("DiplomApi.Models.Livingcost", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Education")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsBaseline")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Loans")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Markets")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Mortgage")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Other")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Rent")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Total")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Transportation")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Utilities")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Livingcosts");
+                });
+
             modelBuilder.Entity("DiplomApi.Models.User", b =>
                 {
                     b.Property<Guid>("Id")

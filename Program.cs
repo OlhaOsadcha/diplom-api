@@ -69,6 +69,7 @@ builder.Services.AddDbContext<DiplomContext>(options =>
 });
 
 builder.Services.AddScoped<IIncomeRepository, IncomeRepository>();
+builder.Services.AddScoped<ILivingcostRepository, LivingcostRepository>();
 
 builder.Services.AddCors(options => options.AddPolicy(
     name: "FrontendUI",
