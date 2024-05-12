@@ -46,7 +46,34 @@ public class IncomeController : ControllerBase
         }
 
         await _repository.UpdateIncomeAsync(income);
+        return Ok(await _repository.GetAllAsync());
+    }
+    
+    [HttpPatch("{id:guid}/baseline")]
+    public async Task<ActionResult<IEnumerable<IncomeDto>>> Patch([FromRoute]Guid id)
+    {
+        Income incomeFound = await _repository.GetByIdAsync(id);
+
+        if (incomeFound == null)
+        {
+            return NotFound();
+        }
         
+        await _repository.UpdateBaselineIncomeAsync(id);
+        return Ok(await _repository.GetAllAsync());
+    }
+    
+    [HttpDelete("{id:guid}")]
+    public async Task<ActionResult<IEnumerable<IncomeDto>>> Delete([FromRoute]Guid id)
+    {
+        Income incomeFound = await _repository.GetByIdAsync(id);
+
+        if (incomeFound == null)
+        {
+            return NotFound();
+        }
+
+        await _repository.DeleteIncomeAsync(id);
         return Ok(await _repository.GetAllAsync());
     }
     

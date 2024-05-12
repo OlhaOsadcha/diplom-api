@@ -25,7 +25,6 @@ public class IncomeRepository : IIncomeRepository
     public async Task<Income> GetByIdAsync(Guid id)
     {
         return await _context.Incomes.FirstOrDefaultAsync(i => i.Id == id);
-        // return await _context.Incomes.FindAsync(id);
     }
 
     public async Task<Guid> AddIncomeAsync(IncomeDto income)
@@ -62,6 +61,29 @@ public class IncomeRepository : IIncomeRepository
         await _context.SaveChangesAsync();
 
         return incomeToUpdate.Id;
+    }
+
+    public async Task<Guid> DeleteIncomeAsync(Guid id)
+    {
+        Income incomeToDelete = await GetByIdAsync(id);
+        _context.Incomes.Remove(incomeToDelete);
+        await _context.SaveChangesAsync();
+        return incomeToDelete.Id;
+    }
+
+    public async Task<Guid> UpdateBaselineIncomeAsync(Guid id)
+    {
+        Income incomeBaseline = await _context.Incomes.FirstOrDefaultAsync(i => i.IsBaseline == true);
+
+        if (incomeBaseline != null)
+        {
+            incomeBaseline.IsBaseline = false;
+        }
+        
+        Income incomeToUpdate = await GetByIdAsync(id);
+        incomeToUpdate.IsBaseline = true;
+        await _context.SaveChangesAsync();
+        return id;
     }
     
     private Income GetIncomeDtoFromIncome(IncomeDto income)
