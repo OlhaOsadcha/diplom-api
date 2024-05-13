@@ -1,4 +1,5 @@
 using DiplomApi.Data;
+using DiplomApi.Mappers;
 using DiplomApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -24,8 +25,8 @@ public class MetadataController : ControllerBase
         
         Metadata metadata = new Metadata()
         {
-            Income = income.Total.ToString(),
-            CostOfLiving = livingcost.Total.ToString()
+            Income = income.ToIncomeDto(),
+            CostOfLiving = livingcost.ToLivingcostDto()
         };
 
         return Ok(metadata);

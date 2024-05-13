@@ -1,9 +1,10 @@
 using System.ComponentModel.DataAnnotations;
+using DiplomApi.Dto;
 
 namespace DiplomApi.Models;
 
 public class Metadata
 {
-    public string Income { get; set; }
-    public string CostOfLiving { get; set; }
+    public IncomeDto Income { get; set; }
+    public LivingcostDto CostOfLiving { get; set; }
 }
