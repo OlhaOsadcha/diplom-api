@@ -47,6 +47,7 @@ public class LivingcostRepository: ILivingcostRepository
         Livingcost livingcostToUpdate = await GetByIdAsync(livingcost.Id);
 
         livingcostToUpdate.IsBaseline = livingcostChanged.IsBaseline;
+        livingcostToUpdate.Year = livingcostChanged.Year;
         livingcostToUpdate.Total = livingcostChanged.Total;
         livingcostToUpdate.Mortgage = livingcostChanged.Mortgage;
         livingcostToUpdate.Rent = livingcostChanged.Rent;
@@ -101,6 +102,7 @@ public class LivingcostRepository: ILivingcostRepository
         Livingcost result = new Livingcost()
         {
             IsBaseline = livingcost.IsBaseline,
+            Year = livingcost.Year,
             Total = total,
             Mortgage = mortgage,
             Rent = rent,

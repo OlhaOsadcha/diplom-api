@@ -10,6 +10,7 @@ public static class IncomeMapper
         return new IncomeDto(
             Id: income.Id,
             IsBaseline: income.IsBaseline,
+            Year: income.Year,
             Total: income.Total.ToString() == "0" ? String.Empty : income.Total.ToString(),
             Salary: income.Salary.ToString() == "0" ? String.Empty : income.Salary.ToString(),
             Pension: income.Pension.ToString() == "0" ? String.Empty : income.Pension.ToString(),

@@ -3,6 +3,7 @@ namespace DiplomApi.Dto;
 public record IncomeDto(
     Guid Id,
     bool IsBaseline, 
+    string Year,
     string Total,
     string Salary,
     string Pension,

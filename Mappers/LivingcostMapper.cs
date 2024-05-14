@@ -10,6 +10,7 @@ public static class LivingcostMapper
         return new LivingcostDto(
             Id: livingcost.Id,
             IsBaseline: livingcost.IsBaseline,
+            Year: livingcost.Year,
             Total: livingcost.Total.ToString() == "0" ? String.Empty : livingcost.Total.ToString(),
             Mortgage: livingcost.Mortgage.ToString() == "0" ? String.Empty : livingcost.Mortgage.ToString(),
             Rent: livingcost.Rent.ToString() == "0" ? String.Empty : livingcost.Rent.ToString(),

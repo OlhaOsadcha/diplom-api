@@ -3,6 +3,7 @@ namespace DiplomApi.Models;
 public class Income: BaseModel
 {
     public bool IsBaseline { get; set; }
+    public string Year { get; set; }
     public int Total { get; set; }
     public int Salary { get; set; }
     public int Pension { get; set; }

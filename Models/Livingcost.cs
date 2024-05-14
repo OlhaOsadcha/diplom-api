@@ -3,6 +3,7 @@ namespace DiplomApi.Models;
 public class Livingcost: BaseModel
 {
     public bool IsBaseline { get; set; }
+    public string Year { get; set; }
     public int Total { get; set; }
     public int Mortgage { get; set; }
     public int Rent { get; set; }

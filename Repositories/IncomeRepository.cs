@@ -47,6 +47,7 @@ public class IncomeRepository : IIncomeRepository
         Income incomeToUpdate = await GetByIdAsync(income.Id);
 
         incomeToUpdate.IsBaseline = incomeChanged.IsBaseline;
+        incomeToUpdate.Year = incomeChanged.Year;
         incomeToUpdate.Total = incomeChanged.Total;
         incomeToUpdate.Salary = incomeChanged.Salary;
         incomeToUpdate.Pension = incomeChanged.Pension;
@@ -102,6 +103,7 @@ public class IncomeRepository : IIncomeRepository
         Income result = new Income()
         {
             IsBaseline = income.IsBaseline,
+            Year = income.Year,
             Total = total,
             Salary = salary,
             Pension = pension,

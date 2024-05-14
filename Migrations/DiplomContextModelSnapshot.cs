@@ -67,6 +67,10 @@ namespace DiplomApi.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Year")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Incomes");
@@ -113,6 +117,10 @@ namespace DiplomApi.Migrations
 
                     b.Property<int>("Utilities")
                         .HasColumnType("int");
+
+                    b.Property<string>("Year")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
